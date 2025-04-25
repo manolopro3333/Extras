@@ -1,2 +1,3 @@
 # Extras
-Cyberseguridad test (Metodos de inyeccion de js)
+Prueba.js = Es una prueba de inyeccion de parametros en paginas web (Web Hacking)
+PapelPiedra.py = Ns lo hice por aburrimiento en llamada kjj
