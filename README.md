@@ -1,3 +1,4 @@
 # Extras
-Prueba.js = Es una prueba de inyeccion de parametros en paginas web (Web Hacking)\n
+Prueba.js = Es una prueba de inyeccion de parametros en paginas web (Web Hacking)
+
 PapelPiedra.py = Ns lo hice por aburrimiento en llamada kjj
