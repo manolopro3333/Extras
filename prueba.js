@@ -1,27 +1,24 @@
-const fs = require('fs');
-const path = require('path');
-
-
-function printTree(dirPath, level = 0) {
-    const items = fs.readdirSync(dirPath);
-
-    items.forEach(item => {
-        const fullPath = path.join(dirPath, item);
-        const stats = fs.statSync(fullPath);
-
-
-        if (stats.isDirectory()) {
-
-            console.log(' '.repeat(level * 2) + item);
-
-
-            if (level === 0) {
-                printTree(fullPath, level + 1);
-            }
+(async () => {
+    const output = [];
+  
+    async function mostrarArbol(dirHandle, nivel = 0) {
+      for await (const [nombre, handle] of dirHandle.entries()) {
+        if (handle.kind === 'directory') {
+          output.push('  '.repeat(nivel) + '📁 ' + nombre);
+  
+          if (nivel === 0) {
+            await mostrarArbol(handle, nivel + 1);
+          }
         }
-    });
-}
-
-
-const rootDir = path.join(__dirname);
-printTree(rootDir);
+      }
+    }
+  
+    try {
+      const dirHandle = await window.showDirectoryPicker();
+      await mostrarArbol(dirHandle);
+      console.log(output.join('\n'));
+    } catch (err) {
+      console.error('Operación cancelada o error:', err.message);
+    }
+  })();
+  
