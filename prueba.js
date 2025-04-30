@@ -1,26 +1,34 @@
-async function seleccionarYMostrarTree() {
-    const output = [];
+(function () {
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.webkitdirectory = true;
+    input.style.display = 'none';
   
-    async function mostrarArbol(dirHandle, nivel = 0) {
-      for await (const [nombre, handle] of dirHandle.entries()) {
-        if (handle.kind === 'directory') {
-          output.push('  '.repeat(nivel) + '📁 ' + nombre);
-          if (nivel === 0) {
-            await mostrarArbol(handle, nivel + 1);
-          }
+    input.addEventListener('change', () => {
+      const archivos = Array.from(input.files);
+      const tree = {};
+  
+      for (const archivo of archivos) {
+        const partes = archivo.webkitRelativePath.split('/');
+        const carpeta = partes[0];
+        const subcarpeta = partes[1];
+  
+        if (!tree[carpeta]) tree[carpeta] = new Set();
+        if (subcarpeta) tree[carpeta].add(subcarpeta);
+      }
+  
+      const output = [];
+      for (const carpeta in tree) {
+        output.push('📁 ' + carpeta);
+        for (const sub of tree[carpeta]) {
+          output.push('  📁 ' + sub);
         }
       }
-    }
   
-    try {
-      const dirHandle = await window.showDirectoryPicker();
-      await mostrarArbol(dirHandle);
       console.log(output.join('\n'));
-    } catch (err) {
-      console.error('Error o cancelado:', err.message);
-    }
-  }
+    });
   
-  // Llama a la función (puedes enlazarla a un botón también)
-  seleccionarYMostrarTree();
+    document.body.appendChild(input);
+    input.click();
+  })();
   
