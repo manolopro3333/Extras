@@ -25,7 +25,7 @@
         }
       }
   
-      console.log(output.join('\n'));
+      console.log(output.join('\\n'));
     });
   
     document.body.appendChild(input);
